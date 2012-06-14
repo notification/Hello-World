@@ -1,3 +1,4 @@
 function list(){
-	alert("test file for eclispe git");
+	var a = 5;
+	alert("Value of a = "+a);
 }
