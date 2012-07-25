@@ -1,11 +1,18 @@
 
 var mongoose = require('mongoose');
+var express = require('express');
 var mongoUri = "mongodb://admin:admin@ds035557.mongolab.com:35557/sampletest";
 //var mongoUri = "mongodb://localhost:27017/sampletest";
 
-
+var app = express.createServer();
 mongoose.connect(mongoUri);
 console.log("mongoose :: "+mongoose);
+
+app.configure(function() {
+    app.use(express.bodyParser());
+	app.use(app.router);
+});
+
 
 mongoose.connection.on("open", function() {
       
@@ -71,11 +78,14 @@ mongoose.connection.on("open", function() {
 						console.log("result4 : "+result);
 					});
 
-			collection.find({},function (err, goodQuests) {
+			app.get('/', function(req, res) {
+            collection.find({},function (err, goodQuests) {
 //                console.log(goodQuests);
                 res.json(goodQuests);
 //                collection.drop();
 //                mongoose.disconnect();
                });
 		});
+    });
 });
+app.listen(8145);
